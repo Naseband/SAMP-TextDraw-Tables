@@ -12,43 +12,45 @@ Constructor:
 
 Style Functions:
 
---- TDT_Resize(table, num_rows, num_columns)
---- TDT_GetSize(table, &num_rows, &num_columns)
---- TDT_GetMaxSize(table, &max_rows, &max_columns)
---- TDT_GetCurSize(table, &cur_rows, &cur_columns)
+--- TDT_Resize(TDTable:table, num_rows, num_columns)
+--- TDT_GetSize(TDTable:table, &num_rows, &num_columns)
+--- TDT_GetMaxSize(TDTable:table, &max_rows, &max_columns)
+--- TDT_GetCurSize(TDTable:table, &cur_rows, &cur_columns)
 
---- TDT_SetPosition(table, Float:x, Float:y)
+--- TDT_SetPosition(TDTable:table, Float:x, Float:y)
 
---- TDT_SetBoxStyle(table, box_color, box_alpha_offset)
---- TDT_SetTitleStyle(table, font, Float:font_size, color_fg, color_bg)
---- TDT_SetHeaderStyle(table, font, Float:font_size, color_fg, color_bg)
---- TDT_SetContentStyle(table, font, Float:font_size, color_fg, color_bg)
---- TDT_SetSpacing(table, Float:spacing)
+--- TDT_SetBoxStyle(TDTable:table, box_color, box_alpha_offset)
+--- TDT_SetTitleStyle(TDTable:table, font, Float:font_size, color_fg, color_bg)
+--- TDT_SetHeaderStyle(TDTable:table, font, Float:font_size, color_fg, color_bg)
+--- TDT_SetContentStyle(TDTable:table, font, Float:font_size, color_fg, color_bg)
+--- TDT_SetSpacing(TDTable:table, Float:spacing)
 
---- TDT_SetColumnWidth(table, column_id, Float:width)
---- TDT_SetColumnWidths(table, Float:widths[], size = sizeof(widths))
+--- TDT_SetColumnWidth(TDTable:table, column_id, Float:width)
+--- TDT_SetColumnWidths(TDTable:table, Float:widths[], size = sizeof(widths))
 
 Setup Functions:
 
---- TDT_Create(table)
---- TDT_Destroy(table)
+--- TDT_Create(TDTable:table)
+--- TDT_Destroy(TDTable:table)
 
---- TDT_SetTitleText(table, const fmat[], {Float,bool,_}:...)
+--- TDT_SetTitleText(TDTable:table, const fmat[], {Float,bool,_}:...)
 
---- TDT_SetHeaderRowText(table, const fmat[], {Float,bool,_}:...)
---- TDT_SetHeaderCellText(table, column, const fmat[], {Float,bool,_}:...)
+--- TDT_SetHeaderRowText(TDTable:table, const fmat[], {Float,bool,_}:...)
+--- TDT_SetHeaderCellText(TDTable:table, column, const fmat[], {Float,bool,_}:...)
 
---- TDT_SetContentRowText(table, row, const fmat[], {Float,bool,_}:...)
---- TDT_SetContentCellText(table, row, column, const fmat[], {Float,bool,_}:...)
+--- TDT_SetContentRowText(TDTable:table, row, const fmat[], {Float,bool,_}:...)
+--- TDT_SetContentCellText(TDTable:table, row, column, const fmat[], {Float,bool,_}:...)
+
+--- TDT_AddColumn(TDTable:table, Float:width, fmat[], ...)
 
 Show/Hide Functions:
 
---- TDT_ShowForPlayer(table, playerid)
---- TDT_HideForPlayer(table, playerid)
+--- TDT_ShowForPlayer(TDTable:table, playerid)
+--- TDT_HideForPlayer(TDTable:table, playerid)
 
 Misc Functions:
 
-// --- TDT_CountTextDraws(table)
+// --- TDT_CountTextDraws(TDTable:table)
 
 // ------------------------------------------------------------ 
 
@@ -165,7 +167,7 @@ for each table; similar to how foreach allocates its arrays.
 
 // ------------------------------------------------------------ Definitions
 
-#define TDT_FONT_SIZE_Y_MUL 					3.64
+#define TDT_FONT_SIZE_Y_MUL 					3.64 // 3.64
 #define TDT_SPACING_Y_MUL 						34.0
 
 #define TDT: __41c_
@@ -224,11 +226,11 @@ enum E_TDT_DATA
 // Constants are only available within this row, so all "dynamic" arrays must be outside of the enum
 
 // --- new TDTable:Name<rows,columns>;
-#define TDTable:%1<%2,%3> %1_Data[E_TDT_DATA]={false,%2,%3,%2,%3,%2,%3,TDT_DEFAULT_POS},Text:%1_Title,Text:%1_Header[%3],Text:%1_Content[%2][%3],Float:%1_ColumnWidths[%3],%1_TitleText[TDT_MAX_TITLE_TEXT],%1_HeaderText[%3][TDT_MAX_HEADER_TEXT]
+#define TDTable:%1<%2,%3> %1_Data[E_TDT_DATA]={false,%2,%3,%2,%3,%2,%3,TDT_DEFAULT_POS},Text:%1_Title,Text:%1_Header[%3],Text:%1_Content[%2][%3],Float:%1_ColumnWidths[%3],%1_TitleText[TDT_MAX_TITLE_TEXT],%1_HeaderTexts[%3][TDT_MAX_HEADER_TEXT]
 
 // ------------------------------------------------------------ Style Functions
 
-// --- TDT_Resize(table, num_rows, num_columns)
+// --- TDT_Resize(TDTable:table, num_rows, num_columns)
 
 #define TDT_Resize(%1,%2,%3) TDT:Resize(%1_Data, %2, %3)
 stock TDT:Resize(data[E_TDT_DATA], num_rows, num_columns)
@@ -243,7 +245,7 @@ stock TDT:Resize(data[E_TDT_DATA], num_rows, num_columns)
 	return 1;
 }
 
-// --- TDT_GetSize(table, &num_rows, &num_columns)
+// --- TDT_GetSize(TDTable:table, &num_rows, &num_columns)
 
 #define TDT_GetSize(%1,%2,%3) TDT:GetSize(%1_Data, %2, %3)
 stock TDT:GetSize(const data[E_TDT_DATA], &num_rows, &num_columns)
@@ -254,7 +256,7 @@ stock TDT:GetSize(const data[E_TDT_DATA], &num_rows, &num_columns)
 	return 1;
 }
 
-// --- TDT_GetMaxSize(table, &max_rows, &max_columns)
+// --- TDT_GetMaxSize(TDTable:table, &max_rows, &max_columns)
 
 #define TDT_GetMaxSize(%1,%2,%3) TDT:GetMaxSize(%1_Data, %2, %3)
 stock TDT:GetMaxSize(const data[E_TDT_DATA], &max_rows, &max_columns)
@@ -265,7 +267,7 @@ stock TDT:GetMaxSize(const data[E_TDT_DATA], &max_rows, &max_columns)
 	return 1;
 }
 
-// --- TDT_GetCurSize(table, &cur_rows, &cur_columns)
+// --- TDT_GetCurSize(TDTable:table, &cur_rows, &cur_columns)
 
 #define TDT_GetCurSize(%1,%2,%3) TDT:GetCurSize(%1_Data, %2, %3)
 stock TDT:GetCurSize(const data[E_TDT_DATA], &cur_rows, &cur_columns)
@@ -276,7 +278,7 @@ stock TDT:GetCurSize(const data[E_TDT_DATA], &cur_rows, &cur_columns)
 	return 1;
 }
 
-// --- TDT_SetPosition(table, Float:x, Float:y)
+// --- TDT_SetPosition(TDTable:table, Float:x, Float:y)
 
 #define TDT_SetPosition(%1,%2,%3) TDT:SetPosition(%1_Data, %2, %3)
 stock TDT:SetPosition(data[E_TDT_DATA], Float:x, Float:y)
@@ -287,7 +289,7 @@ stock TDT:SetPosition(data[E_TDT_DATA], Float:x, Float:y)
 	return 1;
 }
 
-// --- TDT_SetBoxStyle(table, box_color, box_alpha_offset = TDT_DEFAULT_BOX_ALPHA_OFFSET)
+// --- TDT_SetBoxStyle(TDTable:table, box_color, box_alpha_offset = TDT_DEFAULT_BOX_ALPHA_OFFSET)
 
 #define TDT_SetBoxStyle(%1,%2) TDT:SetBoxStyle(%1_Data, %2)
 stock TDT:SetBoxStyle(data[E_TDT_DATA], box_color, box_alpha_offset = TDT_DEFAULT_BOX_ALPHA_OFFSET)
@@ -299,7 +301,7 @@ stock TDT:SetBoxStyle(data[E_TDT_DATA], box_color, box_alpha_offset = TDT_DEFAUL
 	return 1;
 }
 
-// --- TDT_SetTitleStyle(table, font, Float:font_size, color_fg, color_bg)
+// --- TDT_SetTitleStyle(TDTable:table, font, Float:font_size, color_fg, color_bg)
 
 #define TDT_SetTitleStyle(%1,%2,%3,%4,%5) TDT:SetTitleStyle(%1_Data, %2, %3, %4, %5)
 stock TDT:SetTitleStyle(data[E_TDT_DATA], font, Float:font_size, color_fg, color_bg)
@@ -313,7 +315,7 @@ stock TDT:SetTitleStyle(data[E_TDT_DATA], font, Float:font_size, color_fg, color
 	return 1;
 }
 
-// --- TDT_SetHeaderStyle(table, font, Float:font_size, color_fg, color_bg)
+// --- TDT_SetHeaderStyle(TDTable:table, font, Float:font_size, color_fg, color_bg)
 
 #define TDT_SetHeaderStyle(%1,%2,%3,%4,%5) TDT:SetHeaderStyle(%1_Data, %2, %3, %4, %5)
 stock TDT:SetHeaderStyle(data[E_TDT_DATA], font, Float:font_size, color_fg, color_bg)
@@ -327,7 +329,7 @@ stock TDT:SetHeaderStyle(data[E_TDT_DATA], font, Float:font_size, color_fg, colo
 	return 1;
 }
 
-// --- TDT_SetContentStyle(table, font, Float:font_size, color_fg, color_bg)
+// --- TDT_SetContentStyle(TDTable:table, font, Float:font_size, color_fg, color_bg)
 
 #define TDT_SetContentStyle(%1,%2,%3,%4,%5) TDT:SetContentStyle(%1_Data, %2, %3, %4, %5)
 stock TDT:SetContentStyle(data[E_TDT_DATA], font, Float:font_size, color_fg, color_bg)
@@ -341,7 +343,7 @@ stock TDT:SetContentStyle(data[E_TDT_DATA], font, Float:font_size, color_fg, col
 	return 1;
 }
 
-// --- TDT_SetSpacing(table, Float:spacing)
+// --- TDT_SetSpacing(TDTable:table, Float:spacing)
 
 #define TDT_SetSpacing(%1,%2) TDT:SetSpacing(%1_Data, %2)
 stock TDT:SetSpacing(data[E_TDT_DATA], Float:spacing)
@@ -352,7 +354,7 @@ stock TDT:SetSpacing(data[E_TDT_DATA], Float:spacing)
 	return 1;
 }
 
-// --- TDT_SetColumnWidth(table, column_id, Float:width)
+// --- TDT_SetColumnWidth(TDTable:table, column_id, Float:width)
 
 #define TDT_SetColumnWidth(%1,%2,%3) TDT:SetColumnWidth(%1_Data, %1_ColumnWidths, %2, %3)
 stock TDT:SetColumnWidth(const data[E_TDT_DATA], Float:column_widths[], column_id, Float:width)
@@ -367,7 +369,7 @@ stock TDT:SetColumnWidth(const data[E_TDT_DATA], Float:column_widths[], column_i
 	return 1;
 }
 
-// --- TDT_SetColumnWidths(table, Float:widths[], size = sizeof(widths))
+// --- TDT_SetColumnWidths(TDTable:table, Float:widths[], size = sizeof(widths))
 
 #define TDT_SetColumnWidths(%1,%2) TDT:SetColumnWidths(%1_Data, %1_ColumnWidths, %2)
 stock TDT:SetColumnWidths(const data[E_TDT_DATA], Float:column_widths[], const Float:widths[], size = sizeof(widths))
@@ -382,12 +384,28 @@ stock TDT:SetColumnWidths(const data[E_TDT_DATA], Float:column_widths[], const F
 	return 1;
 }
 
+// --- TDT_ResetRows(TDTable:table)
+
+#define TDT_ResetRows(%1) TDT:ResetRows(%1_Data)
+stock TDT:ResetRows(data[E_TDT_DATA])
+{
+	data[tdt_NumRows] = 0;
+	return 1;
+}
+
+#define TDT_ResetColumns(%1) TDT:ResetColumns(%1_Data)
+stock TDT:ResetColumns(data[E_TDT_DATA])
+{
+	data[tdt_NumColumns] = 0;
+	return 1;
+}
+
 // ------------------------------------------------------------ Setup Functions
 
-// --- TDT_Create(table)
+// --- TDT_Create(TDTable:table)
 
-#define TDT_Create(%1) TDT:Create(%1_Data, %1_Title, %1_Header, %1_Content, %1_ColumnWidths, %1_TitleText, %1_HeaderText)
-stock TDT:Create(data[E_TDT_DATA], &Text:title, Text:header[], Text:content[][], const Float:column_widths[], const title_text[], const header_text[][])
+#define TDT_Create(%1) TDT:Create(%1_Data, %1_Title, %1_Header, %1_Content, %1_ColumnWidths, %1_TitleText, %1_HeaderTexts)
+stock TDT:Create(data[E_TDT_DATA], &Text:title, Text:header[], Text:content[][], const Float:column_widths[], const title_text[], const header_texts[][])
 {
 	new num_rows = data[tdt_NumRows],
 		num_columns = data[tdt_NumColumns],
@@ -490,7 +508,7 @@ stock TDT:Create(data[E_TDT_DATA], &Text:title, Text:header[], Text:content[][],
 	{
 		y = base_y + data[tdt_TitleFontSize] * TDT_SPACING_Y_MUL + spacing;
 
-		td = TextDrawCreate(x + (column_widths[c] / 2.0), y, header_text[c]);
+		td = TextDrawCreate(x + (column_widths[c] / 2.0), y, header_texts[c]);
 		TextDrawFont(td, data[tdt_HeaderFont]);
 		TextDrawAlignment(td, 2);
 		TextDrawColor(td, data[tdt_HeaderColorFG]);
@@ -531,7 +549,7 @@ stock TDT:Create(data[E_TDT_DATA], &Text:title, Text:header[], Text:content[][],
 	return 1;
 }
 
-// --- TDT_Destroy(table)
+// --- TDT_Destroy(TDTable:table)
 
 #define TDT_Destroy(%1) TDT:Destroy(%1_Data, %1_Title, %1_Header, %1_Content)
 stock TDT:Destroy(data[E_TDT_DATA], Text:title, const Text:header[], const Text:content[][])
@@ -559,7 +577,7 @@ stock TDT:Destroy(data[E_TDT_DATA], Text:title, const Text:header[], const Text:
 	return 1;
 }
 
-// --- TDT_SetTitleText(table, const fmat[], {Float,bool,_}:...)
+// --- TDT_SetTitleText(TDTable:table, const fmat[], {Float,bool,_}:...)
 // --- Note: If va_format is defined (YSI/y_va) it is an actual string format like format(). Otherwise it will only take one specifier which is the type of the argument passed.
 
 #define TDT_SetTitleText(%1,%2,%3) TDT:SetTitleText(%1_Data, %1_Title, %1_TitleText, %2, %3)
@@ -625,11 +643,11 @@ stock TDT:SetTitleText(const data[E_TDT_DATA], Text:title, title_text[], const f
 	return 1;
 }
 
-// --- TDT_SetHeaderRowText(table, const fmat[], {Float,bool,_}:...)
+// --- TDT_SetHeaderRowText(TDTable:table, const fmat[], {Float,bool,_}:...)
 //	 Note: Not a format like format(), each specifier is one column!
 
-#define TDT_SetHeaderRowText(%1,%2,%3) TDT:SetHeaderRowText(%1_Data, %1_Header, %1_HeaderText, %2, %3)
-stock TDT:SetHeaderRowText(const data[E_TDT_DATA], const Text:header[], header_text[][], const fmat[], {Float,bool,_}:...)
+#define TDT_SetHeaderRowText(%1,%2,%3) TDT:SetHeaderRowText(%1_Data, %1_Header, %1_HeaderTexts, %2, %3)
+stock TDT:SetHeaderRowText(const data[E_TDT_DATA], const Text:header[], header_texts[][], const fmat[], {Float,bool,_}:...)
 {
 	#define ARG_IDX 	4
 
@@ -653,17 +671,17 @@ stock TDT:SetHeaderRowText(const data[E_TDT_DATA], const Text:header[], header_t
 		{
 			case 'i','b','d':
 			{
-				format(header_text[c], TDT_MAX_HEADER_TEXT, "%d", getarg(ARG_IDX + c));
+				format(header_texts[c], TDT_MAX_HEADER_TEXT, "%d", getarg(ARG_IDX + c));
 				
 				if(data[tdt_Created] && c < data[tdt_CurColumns])
-					TextDrawSetString(header[c], header_text[c]);
+					TextDrawSetString(header[c], header_texts[c]);
 			}
 			case 'f':
 			{
-				format(header_text[c], TDT_MAX_HEADER_TEXT, "%.02f", getarg(ARG_IDX + c));
+				format(header_texts[c], TDT_MAX_HEADER_TEXT, "%.02f", getarg(ARG_IDX + c));
 				
 				if(data[tdt_Created] && c < data[tdt_CurColumns])
-					TextDrawSetString(header[c], header_text[c]);
+					TextDrawSetString(header[c], header_texts[c]);
 			}
 			case 's':
 			{
@@ -671,13 +689,13 @@ stock TDT:SetHeaderRowText(const data[E_TDT_DATA], const Text:header[], header_t
 
 				while((ch = getarg(ARG_IDX + c, len)) && len < TDT_MAX_HEADER_TEXT - 1)
 				{
-					header_text[c][len++] = ch;
+					header_texts[c][len++] = ch;
 				}
 
-				header_text[c][len] = 0;
+				header_texts[c][len] = 0;
 
 				if(data[tdt_Created] && c < data[tdt_CurColumns])
-					TextDrawSetString(header[c], header_text[c]);
+					TextDrawSetString(header[c], header_texts[c]);
 			}
 		}
 	}
@@ -687,11 +705,11 @@ stock TDT:SetHeaderRowText(const data[E_TDT_DATA], const Text:header[], header_t
 	#undef ARG_IDX
 }
 
-// --- TDT_SetHeaderCellText(table, column, const fmat[], {Float,bool,_}:...)
+// --- TDT_SetHeaderCellText(TDTable:table, column, const fmat[], {Float,bool,_}:...)
 //	 Note: If va_format is defined (YSI/y_va) it is an actual string format like format(). Otherwise it will only take one specifier which is the type of the argument passed.
 
-#define TDT_SetHeaderCellText(%1,%2,%3,%4) TDT:SetHeaderCellText(%1_Data, %1_Header, %1_HeaderText, %2, %3, %4)
-stock TDT:SetHeaderCellText(const data[E_TDT_DATA], const Text:header[], header_text[][], column, const fmat[], {Float,bool,_}:...)
+#define TDT_SetHeaderCellText(%1,%2,%3,%4) TDT:SetHeaderCellText(%1_Data, %1_Header, %1_HeaderTexts, %2, %3, %4)
+stock TDT:SetHeaderCellText(const data[E_TDT_DATA], const Text:header[], header_texts[][], column, const fmat[], {Float,bool,_}:...)
 {
 	#define ARG_IDX 	5
 
@@ -702,10 +720,10 @@ stock TDT:SetHeaderCellText(const data[E_TDT_DATA], const Text:header[], header_
 
 #if defined va_format
 	
-	va_format(header_text[column], sizeof(text), fmat, va_start<ARG_IDX>);
+	va_format(header_texts[column], sizeof(text), fmat, va_start<ARG_IDX>);
 
-	if(data[tdt_Created] && c < data[tdt_CurColumns]) 
-		TextDrawSetString(header[column], header_text[column]);
+	if(data[tdt_Created] && column < data[tdt_CurColumns]) 
+		TextDrawSetString(header[column], header_texts[column]);
 
 #else
 
@@ -723,17 +741,17 @@ stock TDT:SetHeaderCellText(const data[E_TDT_DATA], const Text:header[], header_
 	{
 		case 'i','b','d':
 		{
-			format(header_text[column], TDT_MAX_HEADER_TEXT, "%d", getarg(ARG_IDX));
+			format(header_texts[column], TDT_MAX_HEADER_TEXT, "%d", getarg(ARG_IDX));
 			
 			if(data[tdt_Created] && column < data[tdt_CurColumns])
-				TextDrawSetString(header[column], header_text[column]);
+				TextDrawSetString(header[column], header_texts[column]);
 		}
 		case 'f':
 		{
-			format(header_text[column], TDT_MAX_HEADER_TEXT, "%.02f", getarg(ARG_IDX));
+			format(header_texts[column], TDT_MAX_HEADER_TEXT, "%.02f", getarg(ARG_IDX));
 			
 			if(data[tdt_Created] && column < data[tdt_CurColumns])
-				TextDrawSetString(header[column], header_text[column]);
+				TextDrawSetString(header[column], header_texts[column]);
 		}
 		case 's':
 		{
@@ -741,13 +759,13 @@ stock TDT:SetHeaderCellText(const data[E_TDT_DATA], const Text:header[], header_
 
 			while((ch = getarg(ARG_IDX, len)) && len < TDT_MAX_HEADER_TEXT - 1)
 			{
-				header_text[column][len++] = ch;
+				header_texts[column][len++] = ch;
 			}
 
-			header_text[column][len] = 0;
+			header_texts[column][len] = 0;
 
 			if(data[tdt_Created] && column < data[tdt_CurColumns])
-				TextDrawSetString(header[column], header_text[column]);
+				TextDrawSetString(header[column], header_texts[column]);
 		}
 	}
 
@@ -758,7 +776,7 @@ stock TDT:SetHeaderCellText(const data[E_TDT_DATA], const Text:header[], header_
 	return 1;
 }
 
-// --- TDT_SetContentRowText(table, row, const fmat[], {Float,bool,_}:...)
+// --- TDT_SetContentRowText(TDTable:table, row, const fmat[], {Float,bool,_}:...)
 //	 Note: Not a format like format(), each specifier is one column!
 
 #define TDT_SetContentRowText(%1,%2,%3,%4) TDT:SetContentRowText(%1_Data, %1_Content, %2, %3, %4)
@@ -819,7 +837,7 @@ stock TDT:SetContentRowText(const data[E_TDT_DATA], const Text:content[][], row,
 	#undef ARG_IDX
 }
 
-// --- TDT_SetContentCellText(table, row, column, const fmat[], {Float,bool,_}:...)
+// --- TDT_SetContentCellText(TDTable:table, row, column, const fmat[], {Float,bool,_}:...)
 //	 Note: If va_format is defined (YSI/y_va) it is an actual string format like format(). Otherwise it will only take one specifier which is the type of the argument passed.
 
 #define TDT_SetContentCellText(%1,%2,%3,%4,%5) TDT:SetContentCellText(%1_Data, %1_Content, %2, %3, %4, %5)
@@ -883,12 +901,76 @@ stock TDT:SetContentCellText(const data[E_TDT_DATA], const Text:content[][], row
 
 #endif
 
+	#undef ARG_IDX
+
+	return 1;
+}
+
+// --- TDT_AddColumn(TDTable:table, Float:width, fmat[], ...) // Adds a new column with given width and text - use TDT_ResetColumns if you want to rebuild the table
+
+#define TDT_AddColumn(%1,%2,%3,%4) TDT:AddColumn(%1_Data, %1_ColumnWidths, %1_HeaderTexts, %2, %3, %4)
+stock TDT:AddColumn(data[E_TDT_DATA], Float:column_widths[], header_texts[][], Float:width, const fmat[], {Float,bool,_}:...)
+{
+	#define ARG_IDX 	5
+
+	new max_columns = data[tdt_MaxColumns],
+		column = data[tdt_NumColumns];
+
+	if(column < 0 || column >= max_columns)
+		return 0;
+
+	data[tdt_NumColumns] = data[tdt_NumColumns] + 1; // ++ does not let the compiler know we modify data[], thus throwing a const warning
+	column_widths[column] = width;
+
+#if defined va_format
+	
+	va_format(header_texts[column], sizeof(text), fmat, va_start<ARG_IDX>);
+
+#else
+
+	new num_fmat = strlen(fmat),
+		num_passed = numargs() - ARG_IDX,
+		ch, len;
+
+	if(num_fmat != 1 || num_passed != 1)
+	{
+		printf("TDT_AddColumn(): Specifier count does not match argument count (must be 1).");
+		return 0;
+	}
+
+	switch(fmat[0])
+	{
+		case 'i','b','d':
+		{
+			format(header_texts[column], TDT_MAX_HEADER_TEXT, "%d", getarg(ARG_IDX));
+		}
+		case 'f':
+		{
+			format(header_texts[column], TDT_MAX_HEADER_TEXT, "%.02f", getarg(ARG_IDX));
+		}
+		case 's':
+		{
+			len = 0;
+
+			while((ch = getarg(ARG_IDX, len)) && len < TDT_MAX_HEADER_TEXT - 1)
+			{
+				header_texts[column][len++] = ch;
+			}
+
+			header_texts[column][len] = 0;
+		}
+	}
+
+#endif
+
+	#undef ARG_IDX
+
 	return 1;
 }
 
 // ------------------------------------------------------------ Show/Hide
 
-// --- TDT_ShowForPlayer(table, playerid)
+// --- TDT_ShowForPlayer(TDTable:table, playerid)
 
 #define TDT_ShowForPlayer(%1,%2) TDT:ShowForPlayer(%1_Data, %1_Title, %1_Header, %1_Content, %2)
 stock TDT:ShowForPlayer(const data[E_TDT_DATA], Text:title, const Text:header[], const Text:content[][], playerid)
@@ -914,7 +996,7 @@ stock TDT:ShowForPlayer(const data[E_TDT_DATA], Text:title, const Text:header[],
 	return 1;
 }
 
-// --- TDT_HideForPlayer(table, playerid)
+// --- TDT_HideForPlayer(TDTable:table, playerid)
 
 #define TDT_HideForPlayer(%1,%2) TDT:HideForPlayer(%1_Data, %1_Title, %1_Header, %1_Content, %2)
 stock TDT:HideForPlayer(const data[E_TDT_DATA], Text:title, const Text:header[], const Text:content[][], playerid)
@@ -942,7 +1024,7 @@ stock TDT:HideForPlayer(const data[E_TDT_DATA], Text:title, const Text:header[],
 
 // ------------------------------------------------------------ Misc
 
-// --- TDT_CountTextDraws(table)
+// --- TDT_CountTextDraws(TDTable:table)
 
 #define TDT_CountTextDraws(%1) TDT:CountTextDraws(%1_Data)
 stock TDT:CountTextDraws(const data[E_TDT_DATA])
